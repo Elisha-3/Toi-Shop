@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Product</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- include navbar -->
+        {% include 'navbar.html' %}
+        <section class="row">
+            <div class="col-md-4 p-4">
+                <img src="../static/images/{{ product [5] }}" alt="{{ product [] }}" class="w-100">
+            </div>
+            <div class="col-md-8 p-5">
+                <!-- title  -->
+                <h2 class="text-danger">{{ product[1] }}</h2>
+                <br>
+                <p>{{ product[2] }}</p>
+                <br>
+                <b class="text-info">Product category: {{ product[4] }}</b><br><br>
+                <b class="text-dark">Product Quantity: 3</b><br><br>
+                <b class="text-warning">Product Cost: {{ product[3] }}</b><br><br>
+                
+                <input class="btn btn-primary" type="submit" value="Add to Cart">
+                <!-- check if email exists in session['key']  -->
+                {% if session['key'] %}
+                <!-- it means the user is logged in you can now proceed to make payment -->
+                    <!-- show user a form to complete payment -->
+                    <form action="/mpesa" method="post">
+                        <!-- create a phone number input  -->
+                        <input type="number" class="form-control" placeholder="Enter phone 254XXXXXXXXX" name="phone">
+                        <label for="">To pay KES</label>
+                        <input type="number" class="form-control" name="amount" value="{{ product[3] }}" readonly><br>
+                        <input type="submit" value="Pay Now" class="btn btn-outline-danger">
+                    </form>
+                {% else %}
+                <!-- user not logged in  -->
+                <!-- ask them to login to make purchase -->
+                    <h4 class="text-danger">Please sign in to make purchase</h4>
+                    <a href="/login" class="btn btn-outline-info btn-sm">Login</a>
+                {% endif %}
+                
+
+            </div>
+        </section>
+    </div>
+</body>
+</html>

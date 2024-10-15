@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Toi Shop</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+         
+          <li class="nav-item">
+            <a class="nav-link" href="/products">Products</a>
+          </li>
+         
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Uploads
+            </a>
+            <ul class="dropdown-menu">
+              <li class="nav-item">
+                <a class="nav-link" href="/upload">Upload Products</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/uploadfashion">Upload Fashion</a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Cosmetics</a></li>
+            </ul>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          </li> -->
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <!-- check if session ['key'] exists -->
+        <!-- if it exists the user should not see the login and register buttons -->
+        <!-- user is suppossed to see their email and a logout button -->
+        {% if session['key'] %}
+        <!-- user exists -->
+        <b class="text-muted">Welcome, {{session['key']}}  </b>
+        <a href="/logout" class="btn btn-outline-info">Logout</a>
+        {% else %}
+        <!-- user does not exist -->
+          <a class="btn btn-outline-info" href="/login">Login</a>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary ms-2 p-2" href="/register">Register</a> </li>
+        {% endif %}
+                  <!-- Button trigger modal -->
+        
+          <!-- <button class="btn btn-success ms-2" type="submit">Register</button> -->
+
+        </form>
+      </div>
+    </div>
+  </nav>
+
