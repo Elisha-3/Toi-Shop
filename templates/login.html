@@ -17,6 +17,12 @@
         <b class="text-danger">{{ error }}</b>
        
     <form action="/login" method="POST">
+
+        <label for="">Role</label>
+        <select name="role" id="" class="form-control">
+          <option value="male">admin</option>
+          <option value="female">user</option>
+        </select>
        
         <label for="">Email</label> <br>
         <input type="email" class="form-control" name="email" required>

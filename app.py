@@ -70,11 +70,40 @@ def Singleitem(product_id):
 
     return render_template("single.html", product= product )
 
-#upload products
-@app.route("/upload",methods=['POST', 'GET'])
+@app.route("/login", methods=['POST', 'GET'])
+def Login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Connect to DB
+        connection = pymysql.connect(host='localhost', user='root', password='', database='Toi')
+        cursor = connection.cursor()
+
+        # Check if user exists in the DB
+        sql = "SELECT * FROM users WHERE email = %s AND password = %s"
+        cursor.execute(sql, (email, password))
+
+        # Check if any result found
+        user = cursor.fetchone()
+        if user:
+            role = user[5]  # Assuming the role is in the sixth column
+            session['key'] = email
+            session['admin'] = role  # Store user role in session
+
+            return redirect("/")
+        else:
+            return render_template("login.html", error="Invalid login credentials")
+
+    return render_template("login.html")
+
+
+@app.route("/upload", methods=['POST', 'GET'])
 def Upload():
-    if request.method=='POST':
-        # user can add the products
+    if 'admin' not in session or session['admin'] != 'admin':
+        return render_template("login.html", error="You do not have access to this page.")
+
+    if request.method == 'POST':
         product_name = request.form['product_name']
         product_desc = request.form['product_desc']
         product_cost = request.form['product_cost']
@@ -82,80 +111,26 @@ def Upload():
         product_image_name = request.files['product_image_name']
         product_image_name.save('static/images/' + product_image_name.filename)
 
-        # connect to DB
-        connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
-
-        # create a cursor 
+        # Connect to DB
+        connection = pymysql.connect(host='localhost', user='root', password='', database='Toi')
         cursor = connection.cursor()
 
-        sql = "INSERT INTO products(product_name, product_desc, product_cost, product_category, product_image_name) values (%s, %s, %s, %s,%s)"
-
-        #provide the data
+        sql = "INSERT INTO products(product_name, product_desc, product_cost, product_category, product_image_name) values (%s, %s, %s, %s, %s)"
         data = (product_name, product_desc, product_cost, product_category, product_image_name.filename)
-        # execute
         cursor.execute(sql, data)
-        # save changes
         connection.commit()
 
-        return render_template("upload.html", message= "Product added successfully")
+        return render_template("upload.html", message="Product added successfully")
 
-    else:
-      return render_template("upload.html", error = "Please add a product")
-
-#Fashion route 
-# helps you to see all the fashions
-@app.route("/products")
-def products():
-    # establish connection to DB
-    connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
-    sql = "SELECT * FROM products WHERE product_category = 'dresses'"
-    sql1 = "SELECT * FROM products WHERE product_category = 'handbags'"
-    sql2 = "SELECT * FROM products WHERE product_category = 'socks'"
-    sql3 = "SELECT * FROM products WHERE product_category = 'cap'"
-    sql4 = "SELECT * FROM products WHERE product_category = 'belt'"
-    #sql5 = "SELECT * FROM products WHERE product_category = 'furniture'"
+    return render_template("upload.html", error="Please add a product")
 
 
-
-
-
-
-    # execute the above querry
-    # you need a cursor to execute it 
-    cursor = connection.cursor()
-    cursor1 = connection.cursor()
-    cursor2 = connection.cursor()
-    cursor3 = connection.cursor()
-    cursor4 = connection.cursor()
-    #cursor5 = connection.cursor()
-
-
-    # execute
-    cursor.execute(sql)
-    cursor1.execute(sql1)
-    cursor2.execute(sql2)
-    cursor3.execute(sql3)
-    cursor4.execute(sql4)
-    #cursor5.execute(sql5)
-
-
-
-
-    # get all the phones
-    dresses= cursor.fetchall()
-    handbags= cursor1.fetchall()
-    socks= cursor2.fetchall()
-    cap= cursor3.fetchall()
-    belt= cursor4.fetchall()
-    #furniture = cursor5.fetchall()
-
-    return render_template("fashion.html",dresses=dresses, handbags=handbags, socks=socks, cap=cap, belt=belt)
-
-# a route to upload fashion
-@app.route("/uploadfashion",methods=['POST', 'GET'])
+@app.route("/uploadfashion", methods=['POST', 'GET'])
 def UploadFashion():
-    if request.method=='POST':
-        # user can add the products
+    if 'admin' not in session or session['admin'] != 'admin':
+        return render_template("login.html", error="You do not have access to this page.")
+
+    if request.method == 'POST':
         product_name = request.form['product_name']
         product_desc = request.form['product_desc']
         product_cost = request.form['product_cost']
@@ -163,25 +138,19 @@ def UploadFashion():
         product_image_name = request.files['product_image_name']
         product_image_name.save('static/images/' + product_image_name.filename)
 
-        # connect to DB
-        connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
-
-        # create a cursor 
+        # Connect to DB
+        connection = pymysql.connect(host='localhost', user='root', password='', database='Toi')
         cursor = connection.cursor()
 
-        sql = "INSERT INTO products(product_name, product_desc, product_cost, product_category, product_image_name) values (%s, %s, %s, %s,%s)"
-
-        #provide the data
+        sql = "INSERT INTO products(product_name, product_desc, product_cost, product_category, product_image_name) values (%s, %s, %s, %s, %s)"
         data = (product_name, product_desc, product_cost, fashion_category, product_image_name.filename)
-        # execute
         cursor.execute(sql, data)
-        # save changes
         connection.commit()
 
-        return render_template("uploadfashion.html", message= "Fashion added successfully")
+        return render_template("uploadfashion.html", message="Fashion added successfully")
 
-    else:
-      return render_template("uploadfashion.html", error = "Please add a fashion")
+    return render_template("uploadfashion.html", error="Please add a fashion")
+
 
 @app.route("/about")
 def About():
@@ -193,7 +162,7 @@ def Register():
         # user can add the products
         username = request.form['username']
         email = request.form['email']
-        gender = request.form['gender']
+        role = request.form['role']
         phone = request.form['phone']
         password = request.form['password']
         
@@ -205,10 +174,10 @@ def Register():
         # create a cursor 
         cursor = connection.cursor()
 
-        sql = "INSERT INTO users(username, email, gender, phone, password) values (%s, %s, %s, %s,%s)"
+        sql = "INSERT INTO users(username, email, role, phone, password) values (%s, %s, %s, %s,%s)"
 
         #provide the data
-        data = (username, email, gender, phone, password)
+        data = (username, email, role, phone, password)
         # execute
         cursor.execute(sql, data)
         # save changes
@@ -219,35 +188,37 @@ def Register():
     else:
       return render_template("register.html", error = "Please add a user")
     
-@app.route("/login", methods=['POST','GET'])
-def Login():
-    if request.method=='POST':
-        email = request.form['email']
-        password = request.form['password']
+# @app.route("/login", methods=['POST','GET'])
+# def Login():
+#     if request.method=='POST':
+#         role=request.form['role']
+#         email = request.form['email']
+#         password = request.form['password']
 
-        # connect to DB
-        connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
-        cursor = connection.cursor()
-        # check if user exists in the DB
-        sql = "select * from users WHERE email = %s and password =%s"
+#         # connect to DB
+#         connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
+#         cursor = connection.cursor()
+#         # check if user exists in the DB
+#         sql = "select * from users WHERE role = %s, email = %s and password =%s"
         
-        data = (email,password)
+#         data = (role, email,password)
     
-        #execute
-        cursor.execute(sql, data)
+#         #execute
+#         cursor.execute(sql, data)
     
-        # check if any result found
-        if cursor.rowcount==0:
-            #it means the username and password not found
-            return render_template("login.html", error = "Invalid login credentials")
+#         # check if any result found
+#         if cursor.rowcount==0:
+#             #it means the username and password not found
+#             return render_template("login.html", error = "Invalid login credentials")
 
-        else:
-            session['key']= email
-            return redirect("/")
+#         else:
+#             session['key']= email
+#             session['admin']= role
+#             return redirect("/")
 
 
-    else:
-        return render_template("login.html")
+#     else:
+#         return render_template("login.html")
 #Mpesa
     # implent STK PUSH 
 @app.route("/mpesa", methods=['POST'])
