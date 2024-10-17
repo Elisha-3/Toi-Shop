@@ -17,10 +17,6 @@ def Homepage():
     sql5 = "SELECT * FROM products WHERE product_category = 'Fancy'"
 
 
-
-
-
-
     # execute the above querry
     # you need a cursor to execute it 
     cursor = connection.cursor()
@@ -125,6 +121,49 @@ def Upload():
     return render_template("upload.html", error="Please add a product")
 
 
+@app.route("/fashion")
+def fashion():
+    # establish connection to DB
+    connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
+    sql = "SELECT * FROM products WHERE product_category = 'cots'"
+    sql1 = "SELECT * FROM products WHERE product_category = 'containers'"
+    sql2 = "SELECT * FROM products WHERE product_category = 'shoes'"
+    sql3 = "SELECT * FROM products WHERE product_category = 'sandals'"
+    sql4 = "SELECT * FROM products WHERE product_category = 'moms'"
+    sql5 = "SELECT * FROM products WHERE product_category = 'shops'"
+
+
+    # execute the above querry
+    # you need a cursor to execute it 
+    cursor = connection.cursor()
+    cursor1 = connection.cursor()
+    cursor2 = connection.cursor()
+    cursor3 = connection.cursor()
+    cursor4 = connection.cursor()
+    cursor5 = connection.cursor()
+
+
+    # execute
+    cursor.execute(sql)
+    cursor1.execute(sql1)
+    cursor2.execute(sql2)
+    cursor3.execute(sql3)
+    cursor4.execute(sql4)
+    cursor5.execute(sql5)
+
+
+    # get all the phones
+    cots= cursor.fetchall()
+    containers= cursor1.fetchall()
+    shoes= cursor2.fetchall()
+    sandals= cursor3.fetchall()
+    moms= cursor4.fetchall()
+    shops = cursor5.fetchall()
+
+    return render_template("fashion.html",cots=cots, containers=containers, shoes=shoes, sandals=sandals, moms=moms, shops=shops)
+
+# a route to upload fashion
+
 @app.route("/uploadfashion", methods=['POST', 'GET'])
 def UploadFashion():
     if 'admin' not in session or session['admin'] != 'admin':
@@ -188,37 +227,6 @@ def Register():
     else:
       return render_template("register.html", error = "Please add a user")
     
-# @app.route("/login", methods=['POST','GET'])
-# def Login():
-#     if request.method=='POST':
-#         role=request.form['role']
-#         email = request.form['email']
-#         password = request.form['password']
-
-#         # connect to DB
-#         connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
-#         cursor = connection.cursor()
-#         # check if user exists in the DB
-#         sql = "select * from users WHERE role = %s, email = %s and password =%s"
-        
-#         data = (role, email,password)
-    
-#         #execute
-#         cursor.execute(sql, data)
-    
-#         # check if any result found
-#         if cursor.rowcount==0:
-#             #it means the username and password not found
-#             return render_template("login.html", error = "Invalid login credentials")
-
-#         else:
-#             session['key']= email
-#             session['admin']= role
-#             return redirect("/")
-
-
-#     else:
-#         return render_template("login.html")
 #Mpesa
     # implent STK PUSH 
 @app.route("/mpesa", methods=['POST'])

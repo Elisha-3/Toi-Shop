@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 15, 2024 at 02:09 PM
+-- Generation Time: Oct 17, 2024 at 11:29 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `products` (
   `product_id` int(50) NOT NULL,
   `product_name` text NOT NULL,
-  `product_desc` varchar(50) NOT NULL,
+  `product_desc` varchar(500) NOT NULL,
   `product_cost` int(50) NOT NULL,
   `product_category` text NOT NULL,
   `product_image_name` varchar(50) NOT NULL
@@ -102,7 +102,55 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_desc`, `product_c
 (130, 'Premium Manual Breast Pump 1', 'Ergonomically designed pump for comfortable use.', 1700, 'Fancy', 'breastpump.jpg'),
 (131, 'Deluxe Wearable Breast Pump 1', 'Discreet hands-free pump with advanced technology.', 950, 'Fancy', 'breast pumb.jpg'),
 (132, 'Luxury Strap Carrier 1', 'Comfortable ergonomic design, adjustable.', 2100, 'Fancy', 'carrier.jpg'),
-(133, 'Deluxe Strap Carrier 2', 'Stylish carrier with breathable extra padding.', 1500, 'Fancy', 'strap carrier.jpg');
+(133, 'Deluxe Strap Carrier 2', 'Stylish carrier with breathable extra padding.', 1500, 'Fancy', 'strap carrier.jpg'),
+(134, 'CozyNest Baby Cot', 'A stylish and comfortable cot with adjustable mattress heights.', 25000, 'cots', 'cott3.jpg'),
+(135, 'Dreamy Sleep Baby Cot', 'Designed for safety and comfort, with breathable materials and a soothing mobile.', 22500, 'cots', 'cott7.jpg'),
+(136, 'EcoWood Baby Cot', 'Made from sustainable wood, this cot features a classic design and non-toxic finishes.', 30000, 'cots', 'cott3.jpg'),
+(137, 'Classic Cradle Cot', 'A timeless cradle with gentle rocking motion for a soothing sleep experience.', 20000, 'cots', 'cott8.jpg'),
+(138, 'Luxury Dream Cot', 'A premium cot with plush padding, adjustable height, and elegant design.', 40000, 'cots', 'cott6.jpg'),
+(139, 'SafetyFirst Cot', 'Features rounded edges and a sturdy design, ensuring maximum safety for your baby.', 18000, 'cots', 'cott2.jpg'),
+(140, ' SoftTouch Cotton Cot', 'Comes with hypoallergenic cotton bedding for a gentle touch on baby\'s skin.', 24000, 'cots', 'cott10.jpg'),
+(141, 'Convertible Baby Cot', 'A versatile cot that easily converts into a toddler bed as your child grows.', 35000, 'cots', 'cott5.jpg'),
+(142, 'Vintage Charm Baby Cot', 'A charming vintage-inspired design with intricate details and a classic finish.', 32000, 'cots', 'cott4.jpg'),
+(143, 'Cute Cuddle Booties', 'Soft, warm booties for chilly days, featuring a non-slip sole.', 1800, 'shoes', 'foot2.jpg'),
+(144, 'Little Explorer Sandals', 'Lightweight sandals with adjustable straps for a secure fit.\r\n', 2200, 'shoes', 'foot16.jpg'),
+(145, 'Tiny Toes Sneakers', 'Comfortable canvas sneakers perfect for everyday wear.', 2500, 'shoes', 'foot3.jpg'),
+(146, 'Classic Mary Janes', 'Timeless leather shoes with a buckle, great for special occasions.', 3000, 'shoes', 'foot15.jpg'),
+(147, 'Adventurer High Tops', 'Trendy high-top sneakers designed for little adventurers.\r\n', 2800, 'shoes', 'foot8.jpg'),
+(148, 'Fluffy Fleece Slippers', 'Cozy slippers made from soft fleece, perfect for indoors.', 1500, 'shoes', 'foot11.jpg'),
+(149, 'Rainbow Lace-Up Shoes', 'Colorful lace-up shoes that add fun to any outfit.', 2400, 'shoes', 'foot7.jpg'),
+(150, 'Bouncy Balloons Trainers', ' Sporty trainers with fun balloon prints, ideal for playtime.\r\n', 2600, 'shoes', 'foot3.jpg'),
+(151, 'Velvet Soft Crib Shoes', 'Adorable crib shoes made from soft velvet for delicate feet.', 1700, 'shoes', 'foot1.jpg'),
+(152, 'Pirate Ship Slip-Ons', 'Fun slip-on shoes with a pirate theme, great for casual outings.', 1500, 'shoes', 'foot6.jpg'),
+(153, 'Colorful Canvas Espadrilles', 'Breezy espadrilles with a colorful design for summer days.', 2100, 'shoes', 'foot8.jpg'),
+(154, 'Animal Print Booties', 'Fun booties with cute animal prints, perfect for playtime.\r\n', 1900, 'shoes', 'foot13.jpg'),
+(155, 'Superhero Slip-Ons', ' Slip-on shoes featuring popular superhero designs for little fans.', 2500, 'shoes', 'foot12.jpg'),
+(156, 'Classic Blue Denim Shoes', 'Versatile denim shoes that can match any casual outfit.', 2700, 'shoes', 'foot10.jpg'),
+(157, 'Silicone Baby Feeder', 'Soft silicone feeder that allows babies to self-feed safely.', 1200, 'containers', 'feeder1.jpg'),
+(158, 'Mesh Food Feeder', 'Mesh feeder perfect for fruits and veggies, promoting healthy eating.', 900, 'containers', 'feeder4.jpg'),
+(159, 'Teething Feeder', 'Designed to soothe gums while allowing for safe food exploration.', 1000, 'containers', 'feeder6.jpg'),
+(160, 'Baby Food Dispensing Spoon', 'Spoon that dispenses pureed food directly, making feeding easier.', 150, 'containers', 'feeder2.jpg'),
+(161, 'Nibbler Feeder', 'Feeder designed for introducing solids; safe and easy to clean.', 300, 'containers', 'feeder bottle3.jpg'),
+(162, 'Multi-Functional Baby Feeder', 'Combines a teething toy and food feeder in one for versatility.', 1400, 'containers', 'swinger.jpg'),
+(163, 'Standard Baby Bottle', 'Classic baby bottle with anti-colic nipple design.', 1000, 'containers', 'feeder2.jpg'),
+(164, 'Anti-Colic Feeding Bottle', 'Specially designed to reduce colic and gas in babies.', 1500, 'containers', 'baby bottles.jpg'),
+(165, 'Self-Feeding Bottle', 'Innovative bottle that encourages babies to feed themselves.', 1200, 'containers', 'feeder3.jpg'),
+(166, 'Maternity Maxi Dress', 'A comfortable, flowy maxi dress designed for easy wear throughout pregnancy. Features adjustable straps and a flattering empire waist.', 1800, 'moms', 'mom1.jpg'),
+(167, 'High-Waisted Maternity Leggings', 'Soft and stretchy leggings that provide support and comfort for the growing belly. Perfect for casual outings or lounging at home.', 2200, 'moms', 'mom.jpg'),
+(168, 'Maternity Tunic Top', 'A stylish, flowy tunic made from breathable fabric, ideal for layering or wearing on its own. Available in various colors.', 1200, 'moms', 'mom8.jpg'),
+(169, 'Nursing Top with Button Access', 'Stylish top featuring button-down access for easy breastfeeding. Made from soft, breathable fabric.', 800, 'moms', 'mom8.jpg'),
+(170, 'Nursing Bra', 'Comfortable and supportive nursing bra with easy clip-down access for breastfeeding.', 600, 'moms', 'bra1.jpg'),
+(171, ' Nursing Sports Bra', 'Supportive sports bra designed for nursing mothers, featuring adjustable straps and easy access.', 650, 'moms', 'bra.jpg'),
+(172, 'Lightweight Cardigan', 'A versatile cardigan ideal for layering, with open fronts for easy nursing access.', 1200, 'moms', 'mom4.jpg'),
+(173, 'Maternity Jeans', 'Classic denim jeans with a stretchy belly panel for added comfort. Perfect for everyday wear.', 1000, 'moms', 'mom9.jpg'),
+(174, 'Swaddle Blanket Set', 'A set of soft, breathable swaddle blankets made from organic cotton, perfect for keeping the baby cozy and comfortable.', 2000, 'moms', 'blankets.jpg'),
+(175, 'Diaper Bag Backpack', 'A stylish and functional diaper bag with multiple compartments for easy organization, designed to be worn as a backpack for convenience.', 1800, 'moms', 'diaper_bag.jpg'),
+(176, 'Baby Care Kit', 'A comprehensive baby care kit including essentials like a digital thermometer, nail clippers, comb, and brush. Perfect for new moms to keep their baby well-cared for.', 2200, 'moms', 'grooming kit.jpg'),
+(177, 'Kanga (Lesso) Set', 'A beautifully designed kanga set made from soft, breathable cotton. Perfect for wrapping the baby, using as a blanket, or even as a stylish fashion accessory for the mom. Comes with vibrant prints and traditional sayings.', 1800, 'moms', 'lesso.jpg'),
+(178, 'C-Shaped Nursing Pillow', 'A supportive C-shaped nursing pillow that provides comfort for both mom and baby during breastfeeding. Made from soft, hypoallergenic fabric with removable, washable cover.', 3500, 'moms', 'nursing pillow.jpg'),
+(179, 'Multi-Use Nursing Pillow', 'This versatile nursing pillow can be used for breastfeeding, tummy time, and as a support pillow as the baby grows. Features a soft cover and adjustable support.', 4000, 'moms', 'nursing.pillow.jpg'),
+(180, 'U-Shaped Nursing Pillow', 'Designed to cradle both mom and baby, this U-shaped nursing pillow offers excellent support and comfort. The removable cover is easy to wash, and it includes a pocket for storing essentials', 2500, 'moms', 'nursing.pillow1.jpg'),
+(181, 'Comfort Hip Straps', 'Designed for maximum comfort and support, these hip straps are perfect for daily activities or fitness routines. Made with breathable fabric and adjustable fittings, they ensure a secure fit for all body types. Ideal for running, hiking, or just lounging around, these straps provide the perfect blend of style and functionality.', 2500, 'moms', 'hip strap.jpg');
 
 -- --------------------------------------------------------
 
@@ -118,6 +166,17 @@ CREATE TABLE `users` (
   `password` varchar(50) NOT NULL,
   `role` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `phone`, `password`, `role`) VALUES
+(1, 'Manuel', 'nuelsema5@gmail.com', '+254731552276', '321456', 'user'),
+(2, 'Sharon Mary', 'smart@gmail.com', '+254731552382', '987456', 'user'),
+(3, 'Ban', 'keancheelisha3@gmail.com', '+254704112663', '@pgaDmin4#0', 'admin'),
+(4, 'Esther', 'esmo@gmail.com', '+254793055563', 'esmo_ken', 'admin'),
+(5, 'Keanche Ngare', 'keancheelishan@outlook.com', '+254704112663', '2023@Nuel5/19', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -143,13 +202,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
