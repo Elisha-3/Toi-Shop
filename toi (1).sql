@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 17, 2024 at 11:29 AM
+-- Host: 127.0.0.1
+-- Generation Time: Oct 18, 2024 at 08:50 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Toi`
+-- Database: `toi`
 --
 
 -- --------------------------------------------------------
@@ -150,7 +150,35 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_desc`, `product_c
 (178, 'C-Shaped Nursing Pillow', 'A supportive C-shaped nursing pillow that provides comfort for both mom and baby during breastfeeding. Made from soft, hypoallergenic fabric with removable, washable cover.', 3500, 'moms', 'nursing pillow.jpg'),
 (179, 'Multi-Use Nursing Pillow', 'This versatile nursing pillow can be used for breastfeeding, tummy time, and as a support pillow as the baby grows. Features a soft cover and adjustable support.', 4000, 'moms', 'nursing.pillow.jpg'),
 (180, 'U-Shaped Nursing Pillow', 'Designed to cradle both mom and baby, this U-shaped nursing pillow offers excellent support and comfort. The removable cover is easy to wash, and it includes a pocket for storing essentials', 2500, 'moms', 'nursing.pillow1.jpg'),
-(181, 'Comfort Hip Straps', 'Designed for maximum comfort and support, these hip straps are perfect for daily activities or fitness routines. Made with breathable fabric and adjustable fittings, they ensure a secure fit for all body types. Ideal for running, hiking, or just lounging around, these straps provide the perfect blend of style and functionality.', 2500, 'moms', 'hip strap.jpg');
+(181, 'Comfort Hip Straps', 'Designed for maximum comfort and support, these hip straps are perfect for daily activities or fitness routines. Made with breathable fabric and adjustable fittings, they ensure a secure fit for all body types. Ideal for running, hiking, or just lounging around, these straps provide the perfect blend of style and functionality.', 2500, 'moms', 'hip strap.jpg'),
+(182, ' Little Feet Comfort Sandals', 'Soft and cushioned sandals designed for baby\'s first steps, with a velcro strap for easy wearing.', 1500, 'sandals', 'sandle8.jpg'),
+(183, 'Tiny Toes Flower Sandals', ' Cute sandals with floral patterns, perfect for outdoor play and casual wear', 450, 'sandals', 'sandle6.jpg'),
+(184, 'Baby Walker Grip Sandals', ' Sandals with a sturdy grip sole for babies learning to walk, offering comfort and support.', 650, 'sandals', 'sandle5.jpg'),
+(185, 'Soft Sole Summer Sandals', 'Lightweight and breathable sandals ideal for summer, with a soft sole for comfort.', 700, 'sandals', 'sandle1.jpg'),
+(186, 'Cute Bowknot Baby Sandals', 'Adorable bowknot design sandals made of high-quality PU leather, easy to match with any outfit.', 950, 'sandals', 'sandle10.jpg'),
+(187, 'Premium Leather Baby Sandals', 'Stylish and durable leather sandals offering both comfort and durability for active babies.', 600, 'sandals', 'sandle9.jpg'),
+(188, 'Tiny Feet Strap Sandals', 'Adjustable strap sandals for easy fit, perfect for daily use and suitable for all-day wear.', 350, 'sandals', 'sandle2.jpg'),
+(189, 'Open-Toe Baby Sandals', ' Breathable open-toe design for hot weather, with soft insoles to protect tiny feet.', 450, 'sandals', 'sandle4.jpg'),
+(190, 'Anti-Slip Baby Beach Sandals', 'Perfect for beach trips, these sandals have an anti-slip sole to ensure your baby\'s safety.', 900, 'sandals', 'sandle5.jpg'),
+(191, 'Classic Baby Cot & Closet', 'A sturdy wooden baby cot with a comfortable foam mattress, designed for safety and durability. Includes a storage drawer at the bottom for essentials.', 15000, 'shops', 'cott.jpg'),
+(192, 'Baby Feeding High Chair', ' Adjustable high chair with a detachable tray, easy to clean and designed for both mealtime and playtime. Comes with a soft padded seat for extra comfort.', 7500, 'shops', 'swing baby.jpg'),
+(193, 'Baby Swing with Soothing Vibration', 'A gentle swing with calming vibrations and music, perfect for comforting your baby. Includes a soft seat pad and adjustable reclining positions', 5800, 'shops', 'swinger2.jpg'),
+(194, 'Newborn Essentials Gift Set', 'A curated gift set with everything a newborn needs, including onesies, blankets, burp cloths, mittens, hats, and socks, all made from soft, hypoallergenic cotton.', 0, 'shops', 'shop3.jpg'),
+(195, 'Newborn Essentials Starter Kit', 'A complete kit for newborns, including baby clothes, blankets, feeding bottles, pacifiers, and diapers. Ideal for new parents, this set contains all the essentials for the first few months.', 0, 'shops', 'shop7.jpg'),
+(196, 'Soft Cotton Baby Bandana Bib', ' A stylish and functional bandana bib made from 100% soft cotton, perfect for teething and drooling. Comes with adjustable snap buttons for a comfortable fit. Available in various patterns and colors.', 500, 'shops', 'bandana1.jpg'),
+(197, 'Reversible Baby Bandana Scarf', 'A reversible baby bandana that can be used as a bib or scarf, offering two designs in one. Made from breathable and absorbent fabric to keep your baby dry and comfortable.', 700, 'shops', 'bandana.jpg'),
+(198, 'Musical Baby Rattle Set', 'A set of musical baby rattles in different shapes and sizes, designed to engage babies with sound and texture. Ideal for sensory development.', 1200, 'shops', 'toy5.jpg'),
+(199, 'Mini Push Baby Toy Car', 'A lightweight, push-along toy car with a sturdy design, perfect for babies to develop their motor skills. The car features smooth-rolling wheels and bright colors.', 1200, 'shops', 'toy2.jpg'),
+(200, 'Ride-On Baby Car with Handle', 'A fun ride-on baby car with a handle for parents to push. The car has a comfortable seat, horn sounds, and a spacious under-seat storage compartment for toys.', 4500, 'shops', 'toy14.jpg'),
+(201, 'Baby Balance Bike', 'A no-pedal balance bike designed to help toddlers develop balance and coordination. Made from durable materials with a soft seat and anti-slip handles. Suitable for indoor and outdoor play.', 8500, 'shops', 'classic1.jpg'),
+(202, 'Baby 3-Wheel Scooter Skater', 'A three-wheel scooter with a wide base for stability, ideal for babies learning to ride. Comes with adjustable handlebars, a foot brake, and LED lights in the wheels for extra fun.', 3000, 'shops', 'toy7.jpg'),
+(203, 'Baby 3-Wheel Scooter Skater', 'A three-wheel scooter with a wide base for stability, ideal for babies learning to ride. Comes with adjustable handlebars, a foot brake, and LED lights in the wheels for extra fun.', 3000, 'shops', 'toy7.jpg'),
+(204, 'Baby 3-Wheel Scooter Skater', 'A three-wheel scooter with a wide base for stability, ideal for babies learning to ride. Comes with adjustable handlebars, a foot brake, and LED lights in the wheels for extra fun.', 3000, 'shops', 'toy7.jpg'),
+(205, 'Baby Tricycle with Parental Handle', 'A sturdy baby tricycle with a detachable parental push handle for extra control. Features a safety belt, sunshade canopy, and a basket for carrying toys.', 5500, 'shops', 'toy1.jpg'),
+(206, 'Baby Bath Toys Set', 'A fun and colorful set of floating bath toys, including rubber ducks, fish, and boats. Makes bath time enjoyable and encourages water play.', 900, 'shops', 'toy13.jpg'),
+(207, 'Wooden Baby Building Blocks', 'A set of smooth, wooden building blocks in various shapes and colors. Great for building, stacking, and imaginative play, helping with cognitive development.', 1800, 'shops', 'toy3.jpg'),
+(208, 'Baby On-the-Go Set', 'A complete on-the-go kit with a portable baby bottle warmer, diaper changing mat, baby carrier, and an insulated diaper bag. Ideal for parents who are always on the move.', 0, 'shops', 'shop3.jpg'),
+(209, 'Soft Cotton Baby Mittens Set', 'A set of 4 pairs of soft cotton baby mittens designed to keep your baby’s hands warm and prevent them from scratching their delicate skin. The mittens are breathable, stretchy, and come in adorable pastel colors and prints.', 800, 'shops', 'mittens.jpg');
 
 -- --------------------------------------------------------
 
@@ -202,7 +230,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
+  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 
 --
 -- AUTO_INCREMENT for table `users`
