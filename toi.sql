@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2024 at 08:50 AM
+-- Generation Time: Oct 23, 2024 at 03:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,16 +41,16 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `product_name`, `product_desc`, `product_cost`, `product_category`, `product_image_name`) VALUES
-(1, 'Newborn Baby Starter Kit 1', 'Includes diapers, wipes, and onesies.', 2250, 'Essentials', 'starterkit.jpg'),
-(2, 'Newborn Baby Starter Kit 2', 'Includes bath items and swaddle blankets.', 450, 'Essentials', 'swaddle.jpg'),
-(3, 'Newborn Baby Starter Kit 3', 'Includes feeding bottles and pacifiers.', 1000, 'Essentials', 'paccifier.jpg'),
+(1, 'Newborn Baby Starter Kit 1', 'Includes diapers, wipes, and onesies. This kit is focused on keeping your baby clean and comfortable. It usually includes a mix of diapers suitable for newborns, along with gentle wipes and a cream to prevent rashes. The changing pad provides a clean surface for diaper changes, while a diaper pail helps manage odor.', 2250, 'Essentials', 'starterkit.jpg'),
+(2, 'Newborn Baby Starter Kit 2', 'Designed to set up a cozy nursery environment, this kit includes essentials for a comfortable sleep space. Swaddle blankets can help babies feel secure, while a baby monitor allows parents to keep an eye (or ear) on their little ones from another room.\n\nContents:\nCrib sheets\nSwaddle blankets\nMonitor\nNightlight\nMobile', 450, 'Essentials', 'swaddle.jpg'),
+(3, 'Newborn Baby Starter Kit 3', 'Includes feeding bottles and pacifiers. The heartwarming hollow design makes it easier to grasp. When the baby bites, the juice is evenly produced, the fruit is filtered to prevent choking and the juice is effectively locked when not squeezed preventing the baby from dripping all over the body and clothes', 1000, 'Essentials', 'paccifier.jpg'),
 (4, 'Newborn Baby Starter Kit 4', 'Includes baby clothes and hats.', 1500, 'Essentials', 'kit1.jpg'),
-(5, 'Newborn Baby Starter Kit 5', 'Includes grooming kit and thermometer.', 900, 'Essentials', 'kit2.jpg'),
-(6, 'Newborn Baby Starter Kit 6', 'Includes toys and teething rings.', 350, 'Essentials', 'baby teether.jpg'),
+(5, 'Newborn Baby Starter Kit 5', 'This kit helps parents care for their baby\'s health and hygiene. A digital thermometer and nasal aspirator are critical for monitoring and clearing congestion. Baby nail clippers are specially designed to prevent accidents, while a soft brush helps manage fine baby hair. \n\nContents: \nBaby thermometer, \nNail clippers or file, \nNasal aspirator, \nHairbrush and comb, \nFirst aid essentials (like band-aids and antiseptic)', 900, 'Essentials', 'kit2.jpg'),
+(6, 'Newborn Baby Starter Kit 6', 'Includes toys and teething rings. Contents:\nSoft toys\nRattles\nPlaymat or activity gym\nTeething toys\nSensory books', 350, 'Essentials', 'baby teether.jpg'),
 (7, 'Newborn Baby Starter Kit 7', 'Includes blankets and crib sheets.', 1300, 'Essentials', 'baby shawl.jpg'),
 (8, 'Newborn Baby Starter Kit 8', 'Includes diaper bag and changing mat.', 1600, 'Essentials', 'crawl mat.jpg'),
 (9, 'Newborn Baby Starter Kit 9', 'Includes safety items and pacifier clips.', 1500, 'Essentials', 'paccifier.jpg'),
-(10, 'Newborn Baby Starter Kit 10', 'Includes health kit and soft toys.', 850, 'Essentials', 'toybank.jpg'),
+(10, 'Newborn Baby Starter Kit 10', ' This kit is focused on developmental play, providing items that stimulate a baby’s senses and encourage motor skills. Soft toys and rattles are designed for grasping, while a playmat offers a safe space for tummy time.', 850, 'Essentials', 'toybank.jpg'),
 (11, 'Stylish Diaper Bag 1', 'Water-resistant diaper bag with multiple pockets.', 1800, 'Bags', 'diaperbag1.jpg'),
 (12, 'Stylish Diaper Bag 2', 'Insulated pockets for bottles and snacks.', 1600, 'Bags', 'diaper bag2.jpg'),
 (13, 'Stylish Diaper Bag 3', 'Compact design with changing mat included.', 2400, 'Bags', 'diaper bag3.jpg'),
@@ -91,7 +91,7 @@ INSERT INTO `products` (`product_id`, `product_name`, `product_desc`, `product_c
 (74, 'Baby Pants 1', 'Comfy elastic pants with adorable patterns.', 750, 'Clothings', 'clothe4.jpg'),
 (75, 'Baby Pants 2', 'Lightweight pants for everyday wear.', 1300, 'Clothings', 'clothe2.jpg'),
 (76, 'Baby Dress 1', 'Charming dress with floral design.', 1700, 'Clothings', 'hooded shawl.jpg'),
-(77, 'Fleece Baby Shawl 2', 'Cozy shawl with fun animal prints.', 1300, 'Clothings', 'fleece shawl.jpg'),
+(77, 'Fleece Baby Shawl 2', 'Cozy shawl with fun animal prints.', 1300, 'Clothings', 'fleece shawls.jpg'),
 (78, 'Reversible Baby Shawl 1', 'Two-in-one design for versatile styling.', 1350, 'Clothings', 'baby shawl1.jpg'),
 (79, 'Reversible Baby Shawl 2', 'Stylish reversible shawl for any occasion.', 1300, 'Clothings', 'baby shawl.jpg'),
 (125, 'Luxury Baby Nest 1', 'Soft and cozy nest with removable cover.', 2300, 'Fancy', 'babynest.jpg'),

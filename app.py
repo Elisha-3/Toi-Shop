@@ -8,7 +8,7 @@ app.secret_key = "!#$@%^%$^%@&"
 @app.route("/")
 def Homepage():
     # establish connection to DB
-    connection= pymysql.connect(host='kens.mysql.pythonanywhere-services.com',user='kens', password='@pgaDmin4#0',database='kens$Toi')
+    connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
     sql = "SELECT * FROM products WHERE product_category = 'Essentials'"
     sql1 = "SELECT * FROM products WHERE product_category = 'Bags'"
     sql2 = "SELECT * FROM products WHERE product_category = 'Walkers'"
@@ -54,7 +54,7 @@ def Homepage():
 #route for a single product
 @app.route("/single/<product_id>")
 def Singleitem(product_id):
-    connection= pymysql.connect(host='kens.mysql.pythonanywhere-services.com',user='kens', password='@pgaDmin4#0',database='kens$Toi')
+    connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
     #create SQL query
     sql = "SELECT * FROM products WHERE product_id = %s "
     #create a cursor
@@ -73,7 +73,7 @@ def Login():
         password = request.form['password']
 
         # Connect to DB
-        connection = pymysql.connect(host='kens.mysql.pythonanywhere-services.com', user='kens', password='@pgaDmin4#0', database='kens$Toi')
+        connection = pymysql.connect(host='localhost', user='root', password='', database='Toi')
         cursor = connection.cursor()
 
         # Check if user exists in the DB
@@ -108,7 +108,7 @@ def Upload():
         product_image_name.save('static/images/' + product_image_name.filename)
 
         # Connect to DB
-        connection = pymysql.connect(host='kens.mysql.pythonanywhere-services.com', user='kens', password='@pgaDmin4#0', database='kens$Toi')
+        connection = pymysql.connect(host='localhost', user='root', password='', database='Toi')
         cursor = connection.cursor()
 
         sql = "INSERT INTO products(product_name, product_desc, product_cost, product_category, product_image_name) values (%s, %s, %s, %s, %s)"
@@ -124,7 +124,7 @@ def Upload():
 @app.route("/fashion")
 def fashion():
     # establish connection to DB
-    connection= pymysql.connect(host='kens.mysql.pythonanywhere-services.com',user='kens', password='@pgaDmin4#0',database='kens$Toi')
+    connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
     sql = "SELECT * FROM products WHERE product_category = 'cots'"
     sql1 = "SELECT * FROM products WHERE product_category = 'containers'"
     sql2 = "SELECT * FROM products WHERE product_category = 'shoes'"
@@ -178,7 +178,7 @@ def UploadFashion():
         product_image_name.save('static/images/' + product_image_name.filename)
 
         # Connect to DB
-        connection = pymysql.connect(host='kens.mysql.pythonanywhere-services.com', user='kens', password='@pgaDmin4#0', database='kens$Toi')
+        connection = pymysql.connect(host='localhost', user='root', password='', database='Toi')
         cursor = connection.cursor()
 
         sql = "INSERT INTO products(product_name, product_desc, product_cost, product_category, product_image_name) values (%s, %s, %s, %s, %s)"
@@ -208,7 +208,7 @@ def Register():
         #hashed security
         #hashed_password = generate_password_hash(password, method= 'sha256', salt_length=int=16)
         # connect to DB
-        connection= pymysql.connect(host='kens.mysql.pythonanywhere-services.com',user='kens', password='@pgaDmin4#0',database='kens$Toi')
+        connection= pymysql.connect(host='localhost',user='root', password='',database='Toi')
 
         # create a cursor 
         cursor = connection.cursor()
