@@ -1,7 +1,7 @@
 # 🛍️ Toi Shop - E-Commerce Web Application
 
-![Toi Shop Banner](image-url-here)
-     <img src="screenshot/Capture.png"/>
+![Toi Shop Banner](screenshot/banner.png)
+
 **Toi Shop** is a simple and intuitive e-commerce application built with Flask. Users can browse products, manage their shopping cart, and make payments via Mpesa. Admins have a powerful dashboard for managing products and viewing statistics.
 
 ## 🚀 Features
@@ -33,6 +33,19 @@
 - **Mpesa API** for secure payment processing
 
 ## 📦 Installation
+**Install Flask** Install the Flask framework:
+    pip install flask
+
+**Install MySQL Connector (pymysql)**: This is required for connecting Flask with the MySQL database:
+    pip install pymysql
+
+**Install Werkzeug**: This package is used for password hashing and secure authentication:
+    pip install werkzeug
+
+
+**Install Python Dotenv**: This is used to load environment variables from a .env file:
+    pip install python-dotenv
+
 
 ### Prerequisites
 Ensure you have the following installed:
