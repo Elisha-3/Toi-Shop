@@ -9,7 +9,7 @@ app.secret_key = "!#$@%^%$^%@&"
 # Database connection function
 def get_db_connection():
     return pymysql.connect(
-        host="localhost", user="root", password="", database="Toi"
+        host="bwqnks3sld1ixh10supl-mysql.services.clever-cloud.com", user="uwiaqvhttqj3ovt1", password="", database="bwqnks3sld1ixh10supl"
     )
 
 # Home route
