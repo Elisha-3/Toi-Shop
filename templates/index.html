@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toi Shop</title>
+<!-- css supporting files -->
+<link rel="stylesheet" href="../static/css/bootstrap-reboot.min.css">
+<link rel="stylesheet" href="../static/css/bootstrap.css">
+<link rel="stylesheet" href="../static/css/lightslider.css">
+<link rel="stylesheet" href="../static/css/style.css">
+<!-- JS supporting files -->
+<script src="../static/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/jquery.js"></script>
+<script src="../static/js/lightslider.js"></script>
+<script src="../static/js/script.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+crossorigin="anonymous">
+<link rel="stylesheet" href="style2.css">
+
+  <!-- Font Awesome -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js" integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+    crossorigin="anonymous"></script>
+
+  <!-- Style.CSS -->
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- insert navbar.html using jinja2 template -->
+        {% include 'navbar.html' %}
+         <!-- ADD TOP ALERT HERE -->
+    <div class="alert alert-info  w-100 alert-dismissible fade show" role="alert">
+        <p>Are you looking for baby products? browse, shop and carry best baby products Now!</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <!-- insert carousel.html using jinja2 templates -->
+        {% include 'carousel.html' %}
+        <!-- insert all phones from DB -->
+        <br>
+        <h3 class="bg-info text-white p-2 text-center">Baby Essentials</h3>
+        <section class="slider p-4">
+            <ul class="cd-hidden autoWidth">
+            <!-- we store the phones in an item variable called phones -->
+            <!-- we need to loop them all the phones to get a single phone item, -->
+            <!-- Each single phone item has index from 0 - 5 where -->
+            <!-- Index 0 = product_id, index 1 = product_name, index 2 = product_desc, index 3 = product_cost, index 4= product_category, index 5 = product_image_name -->
+            <!-- loop all the phone items -->
+            {% for singlephone in Essentials %}
+            <li>
+                <div class="box">
+                    <div class="slide-img">
+                        <img src="../static/images/{{ singlephone[5] }}" alt="{{ singlephone[1] }}" width="80" height="50">
+                        <!-- put an overlay button  -->
+                        <div class="overlay">
+                            <a href="/single/{{ singlephone[0] }}" class="buy-btn">Buy Now</a>
+                        </div>
+                    </div>
+                    <div class="detail-box">
+                        {{ singlephone[1] }} <br><br>
+                        <b class="text-warning">KES {{ singlephone[3] }}</b>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <br>
+        <h3 class="bg-info text-white p-2 text-center">Diaper Bags</h3>
+        <section class="slider p-4">
+            <ul class="cd-hidden autoWidth">
+            <!-- we store the phones in an item variable called phones -->
+            <!-- we need to loop them all the phones to get a single phone item, -->
+            <!-- Each single phone item has index from 0 - 5 where -->
+            <!-- Index 0 = product_id, index 1 = product_name, index 2 = product_desc, index 3 = product_cost, index 4= product_category, index 5 = product_image_name -->
+            <!-- loop all the phone items -->
+            {% for singlephone in Bags %}
+            <li>
+                <div class="box">
+                    <div class="slide-img">
+                        <img src="../static/images/{{ singlephone[5] }}" alt="{{ singlephone[1] }}" width="80" height="50">
+                        <!-- put an overlay button  -->
+                        <div class="overlay">
+                            <a href="/single/{{ singlephone[0] }}" class="buy-btn">Buy Now</a>
+                        </div>
+                    </div>
+                    <div class="detail-box">
+                        {{ singlephone[1] }} <br><br>
+                        <b class="text-warning">KES {{ singlephone[3] }}</b>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <br>
+        <h3 class="bg-info text-white p-2 text-center">Baby Walkers</h3>
+        <section class="slider p-4">
+            <ul class="cd-hidden autoWidth">
+            <!-- we store the phones in an item variable called phones -->
+            <!-- we need to loop them all the phones to get a single phone item, -->
+            <!-- Each single phone item has index from 0 - 5 where -->
+            <!-- Index 0 = product_id, index 1 = product_name, index 2 = product_desc, index 3 = product_cost, index 4= product_category, index 5 = product_image_name -->
+            <!-- loop all the phone items -->
+            {% for singlephone in Walkers %}
+            <li>
+                <div class="box">
+                    <div class="slide-img">
+                        <img src="../static/images/{{ singlephone[5] }}" alt="{{ singlephone[1] }}" width="80" height="50">
+                        <!-- put an overlay button  -->
+                        <div class="overlay">
+                            <a href="/single/{{ singlephone[0] }}" class="buy-btn">Buy Now</a>
+                        </div>
+                    </div>
+                    <div class="detail-box">
+                        {{ singlephone[1] }} <br><br>
+                        <b class="text-warning">KES {{ singlephone[3] }}</b>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <br>
+        <h3 class="bg-info text-white p-2 text-center">Baby Feeders</h3>
+        <section class="slider p-4">
+            <ul class="cd-hidden autoWidth">
+            <!-- we store the phones in an item variable called phones -->
+            <!-- we need to loop them all the phones to get a single phone item, -->
+            <!-- Each single phone item has index from 0 - 5 where -->
+            <!-- Index 0 = product_id, index 1 = product_name, index 2 = product_desc, index 3 = product_cost, index 4= product_category, index 5 = product_image_name -->
+            <!-- loop all the phone items -->
+            {% for singlephone in Feeders %}
+            <li>
+                <div class="box">
+                    <div class="slide-img">
+                        <img src="../static/images/{{ singlephone[5] }}" alt="{{ singlephone[1] }}" width="80" height="50">
+                        <!-- put an overlay button  -->
+                        <div class="overlay">
+                            <a href="/single/{{ singlephone[0] }}" class="buy-btn">Buy Now</a>
+                        </div>
+                    </div>
+                    <div class="detail-box">
+                        {{ singlephone[1] }} <br><br>
+                        <b class="text-warning">KES {{ singlephone[3] }}</b>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <br>
+        <h3 class="bg-info text-white p-2 text-center">Clothings & Shawls</h3>
+        <section class="slider p-4">
+            <ul class="cd-hidden autoWidth">
+            <!-- we store the phones in an item variable called phones -->
+            <!-- we need to loop them all the phones to get a single phone item, -->
+            <!-- Each single phone item has index from 0 - 5 where -->
+            <!-- Index 0 = product_id, index 1 = product_name, index 2 = product_desc, index 3 = product_cost, index 4= product_category, index 5 = product_image_name -->
+            <!-- loop all the phone items -->
+            {% for singlephone in Clothings %}
+            <li>
+                <div class="box">
+                    <div class="slide-img">
+                        <img src="../static/images/{{ singlephone[5] }}" alt="{{ singlephone[1] }}" width="80" height="50">
+                        <!-- put an overlay button  -->
+                        <div class="overlay">
+                            <a href="/single/{{ singlephone[0] }}" class="buy-btn">Buy Now</a>
+                        </div>
+                    </div>
+                    <div class="detail-box">
+                        {{ singlephone[1] }} <br><br>
+                        <b class="text-warning">KES {{ singlephone[3] }}</b>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            </ul>
+        </section>
+        <br>
+        <h3 class="bg-info text-white p-2 text-center">Fancy Products</h3>
+
+        <section class="slider p-4">
+            <ul class="cd-hidden autoWidth">
+            <!-- we store the phones in an item variable called phones -->
+            <!-- we need to loop them all the phones to get a single phone item, -->
+            <!-- Each single phone item has index from 0 - 5 where -->
+            <!-- Index 0 = product_id, index 1 = product_name, index 2 = product_desc, index 3 = product_cost, index 4= product_category, index 5 = product_image_name -->
+            <!-- loop all the phone items -->
+            {% for singlephone in Fancy %}
+            <li>
+                <div class="box">
+                    <div class="slide-img">
+                        <img src="../static/images/{{ singlephone[5] }}" alt="{{ singlephone[1] }}" width="80" height="50">
+                        <!-- put an overlay button  -->
+                        <div class="overlay">
+                            <a href="/single/{{ singlephone[0] }}" class="buy-btn">Buy Now</a>
+                        </div>
+                    </div>
+                    <div class="detail-box">
+                        {{ singlephone[1] }} <br><br>
+                        <b class="text-warning">KES {{ singlephone[3] }}</b>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            </ul>
+        </section>
+    </div>
+    <!-- include the footer  -->
+    {% include 'footer.html' %}
+</body>
+
+</html>

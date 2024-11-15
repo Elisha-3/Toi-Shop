@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+    function addToCart(productId) {
+        fetch(`/add_to_cart/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update the badge with the new cart count
+            if(cart_count !== undefined) {
+            document.getElementById('cart-badge').textContent = data.cart_count;
+            document.getElementById('cart-badge').classList.remove('d-none');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
+</head>
+<body>
+    <h2>My Cart</h2>
+<ul>
+    {% for product in cart %}
+        <li>{{ product[1] }} - KES{{ product[3] }}</li>
+    {% endfor %}
+</ul>
+<a href="/checkout" class="btn btn-primary">Proceed to Checkout</a>
+
+</body>
+</html>
