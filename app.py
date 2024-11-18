@@ -2,6 +2,7 @@ from flask import *
 import pymysql
 from mpesa import *
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
 app.secret_key = "!#$@%^%$^%@&"
@@ -9,7 +10,10 @@ app.secret_key = "!#$@%^%$^%@&"
 # Database connection function
 def get_db_connection():
     return pymysql.connect(
-        host="bwqnks3sld1ixh10supl-mysql.services.clever-cloud.com", user="uwiaqvhttqj3ovt1", password="5WIlrvqIT6HOxyyoL0gT", database="bwqnks3sld1ixh10supl"
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
     )
 
 # Home route
@@ -23,7 +27,7 @@ def homepage():
             "Walkers": "SELECT * FROM products WHERE product_category = 'Walkers'",
             "Feeders": "SELECT * FROM products WHERE product_category = 'Feeders'",
             "Clothings": "SELECT * FROM products WHERE product_category = 'Clothings'",
-            "shops": "SELECT * FROM products WHERE product_category = 'shops'"
+            "Fancy": "SELECT * FROM products WHERE product_category = 'Fancy'"
         }
         categories = {}
         with connection.cursor() as cursor:
