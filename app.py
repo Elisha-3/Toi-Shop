@@ -532,4 +532,5 @@ def mpesa():
         '<a href="/" class= "btn btn-outline-muted btn-sm"> Back to Products</a>'
 
 if __name__ == '__main__':
-    app.run(debug=True, port=4003)
+    port = int(os.getenv('PORT', 4003))  # Use PORT from environment variable, fallback to 4003 locally
+    app.run(debug=False, host='0.0.0.0', port=port)
