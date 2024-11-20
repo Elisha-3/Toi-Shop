@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2024 at 10:45 AM
+-- Generation Time: Nov 20, 2024 at 12:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,40 @@ CREATE TABLE `orders` (
   `status` enum('Pending','Paid','Shipped','Delivered','Cancelled') DEFAULT 'Pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `payment_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `currency` varchar(3) NOT NULL,
+  `payment_method` enum('card','paypal','mpesa') NOT NULL,
+  `payment_status` enum('pending','completed','failed','cancelled') NOT NULL DEFAULT 'pending',
+  `transaction_id` varchar(255) DEFAULT NULL,
+  `gateway_response` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `stripe_token` varchar(255) DEFAULT NULL,
+  `stripe_charge_id` varchar(255) DEFAULT NULL,
+  `paypal_payment_id` varchar(255) DEFAULT NULL,
+  `paypal_payer_id` varchar(255) DEFAULT NULL,
+  `mpesa_transaction_id` varchar(255) DEFAULT NULL,
+  `mpesa_phone_number` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`payment_id`, `user_id`, `amount`, `currency`, `payment_method`, `payment_status`, `transaction_id`, `gateway_response`, `created_at`, `updated_at`, `stripe_token`, `stripe_charge_id`, `paypal_payment_id`, `paypal_payer_id`, `mpesa_transaction_id`, `mpesa_phone_number`) VALUES
+(1, 1, 100.00, 'USD', 'card', 'completed', 'ch_1H2I4eG1C27xwHxwTk9TYyCd', '{\"status\":\"succeeded\",\"amount\":10000}', '2024-11-19 07:42:07', '2024-11-19 07:42:07', 'tok_1H2I4eG1C27xwHxwObv4M8Rz', 'ch_1H2I4eG1C27xwHxwTk9TYyCd', NULL, NULL, NULL, NULL),
+(2, 2, 50.00, 'USD', 'paypal', 'completed', 'PAYID-LX6K72LXQXJ74B0JTMK5X7B1', '{\"status\":\"completed\",\"amount\":50.00}', '2024-11-19 07:42:37', '2024-11-19 07:42:37', NULL, NULL, 'PAYID-LX6K72LXQXJ74B0JTMK5X7B1', 'S7AYYTXE44XKY', NULL, NULL),
+(3, 3, 2000.00, 'KES', 'mpesa', 'completed', 'M-PESA-TRX123456', '{\"status\":\"completed\",\"amount\":2000}', '2024-11-19 07:43:19', '2024-11-19 07:43:19', NULL, NULL, NULL, NULL, 'M-PESA-TRX123456', '0712345678');
 
 -- --------------------------------------------------------
 
@@ -232,8 +266,9 @@ INSERT INTO `users` (`id`, `username`, `email`, `phone`, `password`, `role`) VAL
 (2, 'Sharon Mary', 'smart@gmail.com', '+254731552382', '987456', 'user'),
 (3, 'Ban', 'keancheelisha3@gmail.com', '+254704112663', '@pgaDmin4#0', 'admin'),
 (4, 'Esther', 'esmo@gmail.com', '+254793055563', 'esmo_ken', 'admin'),
-(5, 'Keanche Ngare', 'keancheelishan@outlook.com', '+254704112663', '2023@Nuel5/19', 'admin'),
-(6, 'castro', 'castro.test@net.com', '0712365498', '@pgaDMin4#0', '');
+(5, 'Keanche Ngare', 'keanche.elishan@outlook.com', '+254704112663', '2023@Nuel5/19', 'admin'),
+(6, 'castro', 'castro.test@net.com', '0712365498', '@pgaDMin4#0', ''),
+(7, 'trial1', 'trialone@gmail.com', '0731552276', '@trial.net', '');
 
 --
 -- Indexes for dumped tables
@@ -245,6 +280,13 @@ INSERT INTO `users` (`id`, `username`, `email`, `phone`, `password`, `role`) VAL
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`payment_id`),
+  ADD UNIQUE KEY `transaction_id` (`transaction_id`);
 
 --
 -- Indexes for table `products`
@@ -275,6 +317,12 @@ ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
@@ -290,7 +338,7 @@ ALTER TABLE `purchases`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

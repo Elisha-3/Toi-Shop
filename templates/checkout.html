@@ -2,16 +2,177 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout-TOI</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <script src="https://unpkg.com/imask"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <title>Secure Checkout</title>
+    <style>
+        /* Simplified container styles */
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 1em;
+            text-align: center;
+        }
+
+        .field-container {
+            margin: 1em 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            text-align: left;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.5em;
+            margin-top: 0.3em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            margin-top: 2em;
+        }
+
+        .payment-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Success and error messages */
+        .message {
+            margin-top: 2em;
+            font-size: 1.2em;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+
+        /* Stripe Elements style */
+        #card-element {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Checkout</h2>
-{% if success %}
-    <p>Thank you for your purchase!</p>
-{% else %}
-    <p>There was an issue with your checkout.</p>
-{% endif %}
+
+<div class="container">
+    <h1>Payment Information</h1>
+
+    <form id="payment-form" action="/process-payment" method="POST">
+        <!-- Card Payment -->
+        <div class="field-container">
+            <label for="name">Cardholder Name</label>
+            <input id="name" name="name" maxlength="20" type="text" required>
+        </div>
+
+        <div class="field-container">
+            <label for="cardnumber">Card Number</label>
+            <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
+            <div id="card-element"></div>  <!-- Stripe Elements will render here -->
+        </div>
+
+        <div class="field-container">
+            <label for="expirationdate">Expiration (mm/yy)</label>
+            <input id="expirationdate" name="expirationdate" type="text" pattern="\d*" inputmode="numeric" required>
+        </div>
+
+        <div class="field-container">
+            <label for="securitycode">Security Code (CVV)</label>
+            <input id="securitycode" name="securitycode" type="text" pattern="\d*" inputmode="numeric" required>
+        </div>
+
+        <!-- Hidden field to store the Stripe token -->
+        <input type="hidden" name="stripeToken" id="stripe-token">
+
+        <!-- Payment Method Options -->
+        <div class="payment-options">
+            <label>
+                <input type="radio" name="payment_method" value="card"> Credit/Debit Card
+            </label>
+            <label>
+                <input type="radio" name="payment_method" value="paypal"> PayPal
+            </label>
+            <label>
+                <input type="radio" name="payment_method" value="mpesa"> MPESA
+            </label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="field-container">
+            <button type="submit">Complete Payment</button>
+        </div>
+    </form>
+
+    <!-- Success or Error Message -->
+    <div class="message">
+        {% if success %}
+            <p class="success">Thank you for your purchase!</p>
+        {% else %}
+            <p class="error">There was an issue with your checkout. Please try again.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // Get the publishable key passed from the Flask backend
+    var stripe = Stripe('{{ publishable_key }}');  // Use Jinja template to inject the publishable key
+    var elements = stripe.elements();
+    var card = elements.create('card');
+    card.mount('#card-element');
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                // Display error.message in your UI
+            } else {
+                // Use the token to make the charge on the backend
+                var token = result.token.id;
+                var amount = 1000;  // Amount in cents
+
+                // Now send the token to your backend (Flask app)
+                var data = {
+                    token: token,
+                    amount: amount
+                };
+
+                fetch('/process-payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    if (data.success) {
+                        alert('Payment Successful!');
+                    } else {
+                        alert('Payment Failed!');
+                    }
+                });
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -6,11 +6,23 @@ import os
 import logging
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Mail, Message
+import stripe
+import paypalrestsdk
+import requests
 
 
 app = Flask(__name__)
 app.secret_key = "!#$@%^%$^%@&"
 
+# Stripe API key (replace with your own key)
+stripe.api_key = 'sk_test_51QMkuLEN6jkDNvmPULgzhfh1TbrOTHsSg1ncFXkIc1hkPjazc7XMK0EB7AEHMkwu8ACnHoeVrXkA9p1ZEADKcJI5008K22BWF3'
+
+# PayPal API credentials (replace with your own credentials)
+paypalrestsdk.configure({
+    'mode': 'sandbox',  # or 'live' for production
+    'client_id': 'your_paypal_client_id',
+    'client_secret': 'your_paypal_client_secret'
+})
 
 # Email configuration for Flask-Mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -31,9 +43,10 @@ if not app.debug:
 # Database connection function
 def get_db_connection():
     return pymysql.connect(
-        host=os.getenv("DB_HOST", "bwqnks3sld1ixh10supl-mysql.services.clever-cloud.com"),
+         host=os.getenv("DB_HOST", "bwqnks3sld1ixh10supl-mysql.services.clever-cloud.com"),
         user=os.getenv("DB_USER", "uwiaqvhttqj3ovt1"),
         password=os.getenv("DB_PASSWORD", "5WIlrvqIT6HOxyyoL0gT"),
+        database=os.getenv("DB_NAME", "bwqnks3sld1ixh10supl"),
         database=os.getenv("DB_NAME", "bwqnks3sld1ixh10supl"),
         connect_timeout=10 
     )
@@ -409,6 +422,87 @@ def restore_product(product_id):
         connection.close()
     return redirect('/admin')
 
+@app.route('/process-payment', methods=['POST'])
+def process_payment():
+    payment_method = request.form['payment_method']
+    success = False
+
+    if payment_method == 'card':
+        success = process_card_payment(request.form)
+    elif payment_method == 'paypal':
+        success = process_paypal_payment(request.form)
+    elif payment_method == 'mpesa':
+        success = mpesa_payment(request.form)
+
+    return render_template('checkout.html', success=success)
+
+def process_card_payment(form_data):
+    try:
+        # Example using Stripe for card payment
+        token = form_data['token']  # Assuming frontend sends a Stripe token
+
+        # Charge the card using Stripe API
+        charge = stripe.Charge.create(
+            amount=request.form["amount"],  # Amount in cents
+            currency='usd',
+            description='Product payment',
+            source=token
+        )
+
+        if charge['status'] == 'succeeded':
+            return True
+        else:
+            return False
+    except stripe.error.StripeError as e:
+        print(e)
+        return False
+
+def process_paypal_payment(form_data):
+    try:
+        # Create a PayPal payment
+        payment = paypalrestsdk.Payment({
+            "intent": "sale",
+            "payer": {
+                "payment_method": "paypal"
+            },
+            "transactions": [{
+                "amount": {
+                    "total": "amount",  # Amount in USD
+                    "currency": "USD"
+                },
+                "description": "PayPal Payment"
+            }],
+            "redirect_urls": {
+                "return_url": url_for('payment_success', _external=True),
+                "cancel_url": url_for('payment_cancel', _external=True)
+            }
+        })
+
+        if payment.create():
+            for link in payment.links:
+                if link.method == "REDIRECT":
+                    # Redirect to PayPal for approval
+                    return redirect(link.href)
+        else:
+            return False
+    except paypalrestsdk.exceptions.PayPalConnectionError as e:
+        print(e)
+        return False
+
+@app.route('/payment-success')
+def payment_success():
+    payment_id = request.args.get('paymentId')
+    payer_id = request.args.get('PayerID')
+    payment = paypalrestsdk.Payment.find(payment_id)
+    
+    if payment.execute({"payer_id": payer_id}):
+        return render_template('checkout.html', success=True)
+    else:
+        return render_template('checkout.html', success=False)
+
+@app.route('/payment-cancel')
+def payment_cancel():
+    return render_template('checkout.html', success=False)
 
 
 #Mpesa
@@ -425,4 +519,4 @@ def mpesa():
         '<a href="/" class= "btn btn-outline-muted btn-sm"> Back to Products</a>'
 
 if __name__ == '__main__':
-    app.run(debug=False, port=4003)
+    app.run(debug=True, port=4003)
