@@ -15,7 +15,8 @@ app = Flask(__name__)
 app.secret_key = "!#$@%^%$^%@&"
 
 # Stripe API key (replace with your own key)
-stripe.api_key = 'sk_test_51QMkuLEN6jkDNvmPULgzhfh1TbrOTHsSg1ncFXkIc1hkPjazc7XMK0EB7AEHMkwu8ACnHoeVrXkA9p1ZEADKcJI5008K22BWF3'
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+
 
 # PayPal API credentials (replace with your own credentials)
 paypalrestsdk.configure({
@@ -43,11 +44,10 @@ if not app.debug:
 # Database connection function
 def get_db_connection():
     return pymysql.connect(
-         host=os.getenv("DB_HOST", "bwqnks3sld1ixh10supl-mysql.services.clever-cloud.com"),
-        user=os.getenv("DB_USER", "uwiaqvhttqj3ovt1"),
-        password=os.getenv("DB_PASSWORD", "5WIlrvqIT6HOxyyoL0gT"),
-        database=os.getenv("DB_NAME", "bwqnks3sld1ixh10supl"),
-        database=os.getenv("DB_NAME", "bwqnks3sld1ixh10supl"),
+         host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME"),
         connect_timeout=10 
     )
 
@@ -279,13 +279,32 @@ def cart():
             connection.close()
     return render_template('cart.html', cart=products, quantities=cart_items)
 
-# Checkout route
+# Required imports
+import os
+from flask import Flask, render_template, session, redirect
+
+# Load environment variables
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Flask app instance
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Replace with a secure key
+
 @app.route('/checkout')
 def checkout():
-    if 'cart' in session:
-        session.pop('cart')
-        return render_template('checkout.html', success=True)
+    # Check if the cart exists in the session
+    if 'cart' in session and session['cart']:
+        # Retrieve Stripe publishable key from environment variable
+        publishable_key = os.getenv('STRIPE_PUBLISHABLE_KEY')
+        
+        # Render the checkout page with the publishable key
+        return render_template('checkout.html', publishable_key=publishable_key, success=False)
+    
+    # Redirect to the cart page if no cart data exists
     return redirect('/cart')
+
 
 # Logout route
 @app.route("/logout")
@@ -438,24 +457,18 @@ def process_payment():
 
 def process_card_payment(form_data):
     try:
-        # Example using Stripe for card payment
-        token = form_data['token']  # Assuming frontend sends a Stripe token
-
-        # Charge the card using Stripe API
+        token = form_data['token']
         charge = stripe.Charge.create(
-            amount=request.form["amount"],  # Amount in cents
+            amount=int(form_data['amount']) * 100,  # Amount in cents
             currency='usd',
             description='Product payment',
             source=token
         )
-
-        if charge['status'] == 'succeeded':
-            return True
-        else:
-            return False
+        return charge['status'] == 'succeeded'
     except stripe.error.StripeError as e:
-        print(e)
+        app.logger.error("Stripe error occurred: %s", str(e))
         return False
+
 
 def process_paypal_payment(form_data):
     try:

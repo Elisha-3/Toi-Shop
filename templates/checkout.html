@@ -5,10 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/bootstrap.css">
-    <script src="https://unpkg.com/imask"></script>
     <script src="../static/js/bootstrap.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
-
     <title>Secure Checkout</title>
     <style>
         /* Simplified container styles */
@@ -29,12 +27,11 @@
             text-align: left;
         }
 
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 0.5em;
-            margin-top: 0.3em;
+        #card-element {
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-size: 16px;
         }
 
         .payment-options {
@@ -43,136 +40,99 @@
             margin-top: 2em;
         }
 
-        .payment-options input[type="radio"] {
-            margin-right: 10px;
-        }
-
         /* Success and error messages */
         .message {
             margin-top: 2em;
             font-size: 1.2em;
         }
+
         .success {
             color: green;
         }
+
         .error {
             color: red;
-        }
-
-        /* Stripe Elements style */
-        #card-element {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Payment Information</h1>
-
-    <form id="payment-form" action="/process-payment" method="POST">
-        <!-- Card Payment -->
-        <div class="field-container">
-            <label for="name">Cardholder Name</label>
-            <input id="name" name="name" maxlength="20" type="text" required>
+    <div class="container">
+        <h1>Payment Information</h1>
+        <form id="payment-form" action="/process-payment" method="POST">
+            <!-- Card Payment -->
+            <div class="field-container">
+                <label for="name">Cardholder Name</label>
+                <input id="name" name="name" maxlength="20" type="text" required>
+            </div>
+            <div class="field-container">
+                <label for="card-element">Card Information</label>
+                <div id="card-element"></div> <!-- Stripe Elements will render here -->
+                <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
+            </div>
+            <!-- Submit Button -->
+            <div class="field-container">
+                <button id="submit" type="submit">Complete Payment</button>
+            </div>
+        </form>
+        <!-- Success or Error Message -->
+        <div class="message">
+            {% if success %}
+                <p class="success">Thank you for your purchase!</p>
+            {% else %}
+                <p class="error">There was an issue with your checkout. Please try again.</p>
+            {% endif %}
         </div>
-
-        <div class="field-container">
-            <label for="cardnumber">Card Number</label>
-            <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
-            <div id="card-element"></div>  <!-- Stripe Elements will render here -->
-        </div>
-
-        <div class="field-container">
-            <label for="expirationdate">Expiration (mm/yy)</label>
-            <input id="expirationdate" name="expirationdate" type="text" pattern="\d*" inputmode="numeric" required>
-        </div>
-
-        <div class="field-container">
-            <label for="securitycode">Security Code (CVV)</label>
-            <input id="securitycode" name="securitycode" type="text" pattern="\d*" inputmode="numeric" required>
-        </div>
-
-        <!-- Hidden field to store the Stripe token -->
-        <input type="hidden" name="stripeToken" id="stripe-token">
-
-        <!-- Payment Method Options -->
-        <div class="payment-options">
-            <label>
-                <input type="radio" name="payment_method" value="card"> Credit/Debit Card
-            </label>
-            <label>
-                <input type="radio" name="payment_method" value="paypal"> PayPal
-            </label>
-            <label>
-                <input type="radio" name="payment_method" value="mpesa"> MPESA
-            </label>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="field-container">
-            <button type="submit">Complete Payment</button>
-        </div>
-    </form>
-
-    <!-- Success or Error Message -->
-    <div class="message">
-        {% if success %}
-            <p class="success">Thank you for your purchase!</p>
-        {% else %}
-            <p class="error">There was an issue with your checkout. Please try again.</p>
-        {% endif %}
     </div>
-</div>
+    <script>
+        // Ensure publishable key is injected correctly
+        var stripe = Stripe("{{ publishable_key }}"); // Backend key passed via Jinja
+        var elements = stripe.elements();
 
-<script>
-    // Get the publishable key passed from the Flask backend
-    var stripe = Stripe('{{ publishable_key }}');  // Use Jinja template to inject the publishable key
-    var elements = stripe.elements();
-    var card = elements.create('card');
-    card.mount('#card-element');
-
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        stripe.createToken(card).then(function(result) {
-            if (result.error) {
-                // Display error.message in your UI
-            } else {
-                // Use the token to make the charge on the backend
-                var token = result.token.id;
-                var amount = 1000;  // Amount in cents
-
-                // Now send the token to your backend (Flask app)
-                var data = {
-                    token: token,
-                    amount: amount
-                };
-
-                fetch('/process-payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                }).then(function(response) {
-                    return response.json();
-                }).then(function(data) {
-                    if (data.success) {
-                        alert('Payment Successful!');
-                    } else {
-                        alert('Payment Failed!');
+        // Create an instance of the card Element.
+        var card = elements.create('card', {
+            style: {
+                base: {
+                    color: '#32325d',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                        color: '#aab7c4'
                     }
-                });
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
             }
         });
-    });
-</script>
 
+        // Mount card element into the DOM
+        card.mount('#card-element');
+
+        // Handle form submission
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Display error.message in the #card-errors div
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Token was created, pass it to the backend
+                    var stripeTokenInput = document.createElement('input');
+                    stripeTokenInput.setAttribute('type', 'hidden');
+                    stripeTokenInput.setAttribute('name', 'stripeToken');
+                    stripeTokenInput.setAttribute('value', result.token.id);
+                    form.appendChild(stripeTokenInput);
+
+                    // Submit the form
+                    form.submit();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
