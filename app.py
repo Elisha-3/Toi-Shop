@@ -22,7 +22,7 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 paypalrestsdk.configure({
     'mode': 'sandbox',  # or 'live' for production
     'client_id': 'your_paypal_client_id',
-    'client_secret': 'your_paypal_client_secret'
+    'client_secret': 'default_value_if_missing'
 })
 
 # Email configuration for Flask-Mail
