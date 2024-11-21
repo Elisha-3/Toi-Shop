@@ -6,6 +6,7 @@ import os
 import logging
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Mail, Message
+from datetime import datetime
 import stripe
 import paypalrestsdk
 import requests
@@ -279,19 +280,6 @@ def cart():
             connection.close()
     return render_template('cart.html', cart=products, quantities=cart_items)
 
-# Required imports
-import os
-from flask import Flask, render_template, session, redirect
-
-# Load environment variables
-from dotenv import load_dotenv
-
-load_dotenv()
-
-# Flask app instance
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure key
-
 @app.route('/checkout')
 def checkout():
     # Check if the cart exists in the session
@@ -338,10 +326,32 @@ def admin_dashboard():
 
         cursor.execute("SELECT SUM(product_cost) FROM purchases")
         total_sales = cursor.fetchone()[0] or 0
+
+        # Fetch payments
+        cursor.execute("""
+            SELECT payment_id, user_id, amount, currency, payment_method, 
+                   payment_status, transaction_id, created_at, updated_at
+            FROM payments
+        """)
+        payments = cursor.fetchall()
+
+        # Query to fetch purchases data
+        cursor.execute("SELECT purchase_id, product, quantity, purchase_date, product_cost FROM purchases")
+        purchases = cursor.fetchall()
+
+        purchases = [
+            (
+            purchase[0],  # purchase_id
+            purchase[1],  # product
+            purchase[2],  # quantity
+            purchase[3].strftime('%Y-%m-%d %H:%M:%S'),  # formatted purchase_date
+            purchase[4]   # product_cost
+        ) for purchase in purchases
+        ]
     finally:
         connection.close()
 
-    return render_template("admindashboard.html", products=products, deleted_products=deleted_products, users=users, analytics={'total_users': total_users, 'total_sales': total_sales})
+    return render_template("admindashboard.html", products=products, deleted_products=deleted_products, users=users, analytics={'total_users': total_users, 'total_sales': total_sales,},payments=payments, purchases=purchases)
 
 
 # Route to upload new products
@@ -407,6 +417,64 @@ def upload_fashion():
         return render_template("uploadfashion.html", message="Fashion product added successfully")
     
     return render_template("uploadfashion.html", error="Please add a fashion product")
+
+@app.route('/insert-to-purchases', methods=['POST'])
+def insert_to_purchases():
+    # Ensure only admin users can access this page
+    if 'admin' not in session or session['admin'] != 'admin':
+        return render_template("login.html", error="You do not have access to this page.")
+    
+    # Establish a connection to the database
+    connection = get_db_connection()
+    
+    try:
+        # Get the product ID and quantity from the form
+        product_id = request.form['product_id']
+        quantity = int(request.form['quantity'])
+
+        # Fetch product details from the products table
+        cursor = connection.cursor()
+        cursor.execute("SELECT product_name, product_cost FROM products WHERE product_id = %s", (product_id,))
+        product = cursor.fetchone()
+
+        # If no product is found, return an error
+        if not product:
+            return render_template("error.html", error="Product not found.")
+
+        product_name, product_cost = product
+
+        # Calculate the total cost
+        total_cost = quantity * product_cost
+
+        # Insert the purchase details into the purchases table
+        cursor.execute("""
+            INSERT INTO purchases (product, quantity, purchase_date, product_cost) 
+            VALUES (%s, %s, %s, %s)
+        """, (product_name, quantity, datetime.now(), total_cost))
+
+        # Commit the transaction
+        connection.commit()
+
+        # Return a success message
+        return render_template("success.html", message="Product successfully added to purchases!")
+
+    except Exception as e:
+        connection.rollback()
+        app.logger.error(f"Error inserting into purchases: {e}")
+        return render_template("error.html", error="An error occurred while inserting the product.")
+
+    finally:
+        # Close the database connection
+        connection.close()
+
+# Error and success templates (you can customize these HTML templates)
+@app.route('/error')
+def error():
+    return render_template("error.html")
+
+@app.route('/success')
+def success():
+    return render_template("success.html")
 
 
 # Route to soft delete a product

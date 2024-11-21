@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container my-4">
+        <h2>Payments</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>User ID</th>
+                    <th>Amount</th>
+                    <th>Currency</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Transaction ID</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{ payment[0] }}</td>
+                    <td>{{ payment[1] }}</td>
+                    <td>${{ payment[2] }}</td>
+                    <td>{{ payment[3] }}</td>
+                    <td>{{ payment[4] }}</td>
+                    <td>{{ payment[5] }}</td>
+                    <td>{{ payment[6] }}</td>
+                    <td>{{ payment[7] }}</td>
+                    <td>{{ payment[8] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2024 at 12:21 PM
+-- Generation Time: Nov 21, 2024 at 10:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -242,6 +242,22 @@ CREATE TABLE `purchases` (
   `product_cost` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`purchase_id`, `product`, `quantity`, `purchase_date`, `product_cost`) VALUES
+(1, 'Baby Stroller', 2, '2024-11-21 07:00:00', 15000.00),
+(2, 'Baby Crib', 1, '2024-11-20 11:30:00', 20000.00),
+(3, 'Baby Diapers', 5, '2024-11-21 08:15:00', 1200.00),
+(4, 'Baby Bottle', 10, '2024-11-19 06:45:00', 450.00),
+(5, 'Baby Walker', 3, '2024-11-20 13:00:00', 6000.00),
+(6, 'Baby Clothes Set', 4, '2024-11-18 10:20:00', 2500.00),
+(7, 'Baby Feeding Chair', 1, '2024-11-20 12:10:00', 8000.00),
+(8, 'Baby Bath Tub', 2, '2024-11-21 05:40:00', 3000.00),
+(9, 'Baby Toys', 6, '2024-11-21 09:00:00', 2000.00),
+(10, 'Baby Monitor', 1, '2024-11-19 15:25:00', 10000.00);
+
 -- --------------------------------------------------------
 
 --
@@ -332,7 +348,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
